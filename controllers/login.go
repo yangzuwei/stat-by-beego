@@ -20,31 +20,25 @@ type user struct {
 }
 
 func (this *LoginController) Get() {
-
-	mystruct := Foo{Name: "go"}
-
-	v := this.GetSession("asta")
-	if v == nil {
-		this.SetSession("asta", int(1))
-		mystruct.Num = 0
-	} else {
-		this.SetSession("asta", v.(int)+1)
-		mystruct.Num = v.(int)
-	}
-	this.Ctx.SetCookie("name", "magoo")
-	this.Data["json"] = &mystruct
-	this.ServeJSON()
+	this.TplName = "login.html"
 }
 
 func (this *LoginController) Post() {
-	var out string
+
 	username := this.Input().Get("username")
 	password := this.GetString("password")
+	user := models.GeUserByUsername(username)
+	if models.CheckUser(user, password) {
 
-	if models.CheckUser(username, password) == true {
-		out = "success"
+		v := this.GetSession("uid")
+		if v == nil {
+			this.SetSession("uid", user.Id)
+		}
+		this.Ctx.SetCookie("username", username)
+
+		this.Redirect("/", 302)
 	} else {
-		out = "fail"
+		this.Redirect("/login", 302)
 	}
-	this.Ctx.WriteString(out)
+
 }

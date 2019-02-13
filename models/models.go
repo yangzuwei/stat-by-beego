@@ -7,7 +7,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type Users struct {
+type User struct {
 	Id       int
 	Username string
 	Password string
@@ -26,7 +26,7 @@ func init() {
 
 	orm.RegisterDataBase("default", "mysql", "root:root@tcp(127.0.0.1:3306)/test?charset=utf8")
 	orm.RegisterDataBase("std", "mysql", "root:root@tcp(127.0.0.1:3306)/student?charset=utf8")
-	orm.RegisterModel(new(Users), new(Student))
+	orm.RegisterModel(new(User), new(Student))
 	o = orm.NewOrm()
 	o.Using("std")
 }
@@ -47,8 +47,8 @@ func HasHanle() int64 {
 	return cnt
 }
 
-func CheckUser(username string, password string) bool {
-	var user Users
+func GeUserByUsername(username string) User {
+	var user User
 	err := o.Raw("select * from users where username = ?", username).QueryRow(&user)
 	if err == orm.ErrMultiRows {
 		// 多条的时候报错
@@ -58,6 +58,12 @@ func CheckUser(username string, password string) bool {
 		// 没有找到记录
 		fmt.Printf("Not row found")
 	}
+	return user
+}
+
+func CheckUser(user User, password string) bool {
+
 	fmt.Println("password is ", user)
-	return password == user.Password
+
+	return user.Password == password
 }

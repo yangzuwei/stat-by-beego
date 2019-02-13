@@ -15,7 +15,7 @@
 </head>
 <body class="container">
 <header>
-<h1 class="text-center">统计简报</h1>
+<h1 class="text-center">统计简报<small id="username">username</small></h1>
 </header>
 <div class="panel panel-default">
     <div class="panel-body">
@@ -61,4 +61,24 @@
 
   <script src="/static/js/reload.min.js"></script>
 </body>
+<script type="text/javascript">
+	
+	window.onload = function(){
+	var username = getCookie("username");
+	alert(username);
+	console.log(document.getElementById("username").innerHTML);
+	document.getElementById("username").innerHTML = username;
+	}
+	
+	function getCookie(name){  
+    var arr = document.cookie.split('; ');
+    for(var i = 0; i < arr.length; i++){
+        var temp = arr[i].split('=');
+        if(temp[0] == name){
+            return temp[1];
+        }
+    }
+    return '';
+}
+</script>
 </html>
