@@ -59,24 +59,24 @@
   </footer>
   <div class="backdrop"></div>
 
-  <script src="/static/js/reload.min.js"></script>
+  <!--<script src="/static/js/reload.min.js"></script>-->
 </body>
 <script type="text/javascript">
 	
 	window.onload = function(){
-	var username = getCookie("username");
-	alert(username);
-	console.log(document.getElementById("username").innerHTML);
-	document.getElementById("username").innerHTML = username;
+		var username = getCookie("username");
+		alert(username);
+		console.log(document.getElementById("username").innerHTML);
+		document.getElementById("username").innerHTML = username;
 	}
 	
 	function getCookie(name){  
-    var arr = document.cookie.split('; ');
-    for(var i = 0; i < arr.length; i++){
-        var temp = arr[i].split('=');
-        if(temp[0] == name){
-            return temp[1];
-        }
+	    var arr = document.cookie.split('; ');
+	    for(var i = 0; i < arr.length; i++){
+	        var temp = arr[i].split('=');
+	        if(temp[0] == name){
+	            return temp[1];
+	        }
     }
     return '';
 }
